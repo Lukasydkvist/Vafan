@@ -20,4 +20,4 @@ ENV PORT=3001
 EXPOSE 3001
 
 # Start the application
-CMD node ./src/Server/server.js
+CMD node ./src/Server/gateway/server.js
