@@ -50,7 +50,7 @@ const UserForm = () => {
 	const HandleSaveButton = async () => {
 		let userPassword = null;
 		try {
-			userPassword = await axios.post("/api/getPassword", {}, {
+			userPassword = await axios.post("/api/user/getPassword", {}, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}}
@@ -74,7 +74,7 @@ const UserForm = () => {
 			try {
 				if (newName.length > 0) {
 					if (!NameExists) {
-						const responseName = await axios.post("/api/updateName", { newName } , {
+						const responseName = await axios.post("/api/user/updateName", { newName } , {
 							headers: {
 								Authorization: `Bearer ${token}`
 							}}
@@ -94,7 +94,7 @@ const UserForm = () => {
 	
 				if (newEmail.length > 0) {
 					if (!EmailExists) {
-						const responseEmail = await axios.post("/api/updateEmail", { newEmail } , {
+						const responseEmail = await axios.post("/api/user/updateEmail", { newEmail } , {
 							headers: {
 								Authorization: `Bearer ${token}`
 							}}
@@ -115,7 +115,7 @@ const UserForm = () => {
 				// must type in new password twice to change it
 				if (passwordsMatch && newPassword.length > 0)
 				{
-					const responsePassword = await axios.post("/api/updatePassword", { newPassword } , {
+					const responsePassword = await axios.post("/api/user/updatePassword", { newPassword } , {
 						headers: {
 							Authorization: `Bearer ${token}`
 						}}

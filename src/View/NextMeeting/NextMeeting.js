@@ -6,7 +6,7 @@ export function NextMeeting(props) {
 	const [nextMeetingData, setNextMeetingData] = useState([]);
 	const [token] = useState(localStorage.getItem("token"));
 	useEffect(() => {
-		fetch("/api/meeting",{
+		fetch("/api/main/meeting",{
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

@@ -4,7 +4,7 @@
 const useCreateUser = () => {
 	const CreateUser = async (Email, Name, Password) => {
 		try{
-			const response = await fetch("/api/CreateUser", {method: "POST",
+			const response = await fetch("/api/user/CreateUser", {method: "POST",
 				headers: {"Content-Type":"application/json"},
 				body: JSON.stringify({ Email: Email,
 					Name: Name,
