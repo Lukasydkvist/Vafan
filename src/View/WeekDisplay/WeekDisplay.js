@@ -21,7 +21,7 @@ function DispMeeting() {
 	};
 
 	useEffect(() => {
-		fetch("/api/meetingList",{ //if i put the function call here i get error i the code :(
+		fetch("/api/main/meetingList",{ //if i put the function call here i get error i the code :(
 			method: "POST",			// meetingList(); dont work...
 			headers: {
 				"Content-Type": "application/json",
@@ -35,7 +35,7 @@ function DispMeeting() {
 	},[token]);
 	const meetingList = () => 
 	{
-		fetch("/api/meetingList",{
+		fetch("/api/main/meetingList",{
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -49,7 +49,7 @@ function DispMeeting() {
 	};
 	const getYoureMeetingList = () =>
 	{
-		fetch("/api/YoureMeetingList",{
+		fetch("/api/main/YoureMeetingList",{
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -63,7 +63,7 @@ function DispMeeting() {
 	};
 	const deleteMeeting = (id) =>
 	{
-		fetch("/api/DeleteMeeting", {
+		fetch("/api/main/DeleteMeeting", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

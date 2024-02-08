@@ -3,7 +3,7 @@
 const useValidateEmail = () => {
 	const ValidateEmail = async (Email) => {
 		try{
-			const response = await fetch("/api/ValidateEmail", {method: "POST",
+			const response = await fetch("/api/user/ValidateEmail", {method: "POST",
 				headers: {"Content-Type":"application/json"},
 				body: JSON.stringify({ Email: Email })});
 			if(response.ok){
