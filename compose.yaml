@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: ./src/Server/gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user-service
+    environment:
+      - NODE_ENV=production
+
+  user-service:
+    build:
+      context: ./src/Server/userService
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+
+  meeting:
+    build:
+      context: ./src/Server/meeting
+    ports:
+        "3003:3003"
+    environment:
+      - NODE_ENV=production
+
+  database:
+    image: mongo:6
+    ports:
+      - "27017:27017"
