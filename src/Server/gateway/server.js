@@ -17,6 +17,9 @@ app.use("/api/user", createProxyMiddleware({ target: "http://localhost:3002" }))
 
 app.use("/api/main", proxy("http://localhost:3001"));  
 
+app.use("/api/meet", createProxyMiddleware({ target: "http://localhost:3003" }));
+//app.get("/api/user", proxy("http://localhost:3002"));  
+
 
 // Handle requests to the root URL
 app.get(["/", "/home", "/login", "/meetingScheduler"], (req, res) => {

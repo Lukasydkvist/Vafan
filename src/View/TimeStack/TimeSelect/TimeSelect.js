@@ -19,7 +19,7 @@ function AddMeeting() {
 	},[]);
 	const handelButton = async () =>
 	{ 	
-		fetch("/api/main/meeting/save", {
+		fetch("/api/meet/meeting/save", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -38,7 +38,7 @@ function AddMeeting() {
 	};
 	const getUserList = () =>
 	{
-		fetch("/api/main/userList",{ method: "POST"})
+		fetch("/api/meet/userList",{ method: "POST"})
 			.then((response) => response.json())
 			.then((data) => {
 				setMenuItems(data);
@@ -56,7 +56,7 @@ function AddMeeting() {
 	};
 	const addParticipantsToMeetings = async (currentMeetingId) =>
 	{
-		fetch("/api/main/addParticipantsToMeetings",{
+		fetch("/api/meet/addParticipantsToMeetings",{
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
