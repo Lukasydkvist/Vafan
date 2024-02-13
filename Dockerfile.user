@@ -1,16 +1,24 @@
 FROM node:latest
 
+
 # Set the working directory
 WORKDIR /Vafan
 
-# Copy package.json and package-lock.json to the work directory
-COPY package*.json ./
+# Debugging: List files before and after copy
+RUN ls -al
+
+# Copy the application code
+COPY . .
+
+
+# Debugging: List files before and after copy
+RUN ls -al
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
-COPY . .
+# Build the React app
+RUN npm run build
 
 # Expose the port that the backend is running on
 ENV PORT=3002

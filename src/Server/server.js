@@ -11,8 +11,8 @@ require("dotenv").config();
 const secretKey = process.env.SECRET_KEY;
 
 const User = require("./userService/user.js");
-const MeetingProp = require("./meeting.js");
-const MeetingParticipan = require("./meetingParticipan.js");
+const MeetingProp = require("./meeting/meeting.js");
+const MeetingParticipan = require("./meeting/meetingParticipan.js");
 
 const schedule = require("../rotate_key.js");
 schedule.startCronJob();

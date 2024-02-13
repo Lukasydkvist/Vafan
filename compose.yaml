@@ -3,17 +3,17 @@ version: '3.8'
 services:
   gateway:
     build:
-      context: ./src/Server/gateway
+      dockerfile: ./Dockerfile.gateway
     ports:
       - "3000:3000"
     depends_on:
-      - user-service
+      - user
     environment:
       - NODE_ENV=production
 
-  user-service:
+  user:
     build:
-      context: ./src/Server/userService
+      dockerfile: ./Dockerfile.user
     ports:
       - "3002:3002"
     environment:
@@ -21,13 +21,18 @@ services:
 
   meeting:
     build:
-      context: ./src/Server/meeting
+      dockerfile: ./Dockerfile.meeting
     ports:
-        "3003:3003"
+      - "3003:3003"
     environment:
       - NODE_ENV=production
 
-  database:
-    image: mongo:6
+  server:
+    build:
+      dockerfile: ./Dockerfile.main
     ports:
-      - "27017:27017"
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+
+

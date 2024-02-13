@@ -3,6 +3,7 @@ const proxy = require("express-http-proxy");
 const path = require("path");
 const app = express(); 
 
+const port = 3000;
 const my_path = "../../../build/";
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
@@ -26,4 +27,4 @@ app.get(["/", "/home", "/login", "/meetingScheduler"], (req, res) => {
 	// Send the index.html file from the build folder as the response
 	res.sendFile(path.join(__dirname, my_path, "index.html"));
 });
-app.listen(3000); 
+app.listen(port, () => console.log(`server listening on http://localhost:${port}`)); 
