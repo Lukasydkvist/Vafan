@@ -11,14 +11,15 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const secretKey = process.env.SECRET_KEY;
 
-const User = require("./meeting.js");
+//const User = require("./meeting.js");
 const MeetingProp = require("./meeting.js");
 const MeetingParticipan = require("./meetingParticipan.js");
 
 const schedule = require("../../rotate_key.js");
 schedule.startCronJob();
 
-const my_path = "../../build/";
+//const my_path = "../../build/";
+//const my_path = "../../../build/";
 
 app.use(bodyParser.json());
 

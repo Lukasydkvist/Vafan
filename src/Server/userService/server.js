@@ -16,7 +16,7 @@ const User = require("./user.js");
 const schedule = require("../../rotate_key.js");
 schedule.startCronJob();
 
-const my_path = "../../build/";
+//const my_path = "../../build/";
 
 app.use(bodyParser.json());
 
