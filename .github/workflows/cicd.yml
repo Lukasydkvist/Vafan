@@ -45,7 +45,7 @@ jobs:
         run: echo ${{ secrets.CONTAINER_REGISTRY_PASSWORD }} | docker login ${{ secrets.CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password-stdin 
 
       - name: Push images to azure container registry
-        run: docker-compose up
+        run: docker-compose push
 
       - name: Run terraform
         run: cd terraform
