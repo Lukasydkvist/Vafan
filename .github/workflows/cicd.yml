@@ -46,13 +46,7 @@ jobs:
 
       - name: Push images to azure container registry
         run: docker-compose push
-
-      - name: Run terraform
-        run: cd terraform &&
-             terraform init &&
-             terraform apply -auto-approve &&
-             cd ..
-
+        
       - uses: tale/kubectl-action@v1
         with: 
           base64-kube-config: ${{ secrets.KUBE_CONFIG }}
