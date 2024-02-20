@@ -11,6 +11,11 @@
 # production
 /build
 
+# Terraform
+terraform/.terraform/
+terraform/.terraform.*
+terraform/terraform.tfstate*
+
 # misc
 .DS_Store
 .env.local
