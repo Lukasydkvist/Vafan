@@ -48,9 +48,9 @@ jobs:
         run: docker-compose push
 
       - name: Run terraform
-        run: cd terraform
-             terraform init
-             terraform apply -auto-approve
+        run: cd terraform &&
+             terraform init &&
+             terraform apply -auto-approve &&
              cd ..
 
       - uses: tale/kubectl-action@v1
@@ -59,13 +59,13 @@ jobs:
           kubectl-version: v1.24.2
       
       - name: Deploy all kubernetes services and deployments
-        run: kubectl apply -f gateway-deployment.yaml
-             kubectl apply -f gateway-service.yaml
-             kubectl apply -f meeting-deployment.yaml
-             kubectl apply -f meeting-service.yaml
-             kubectl apply -f user-deployment.yaml
-             kubectl apply -f user-service.yaml
-             kubectl apply -f main-deployment.yaml
+        run: kubectl apply -f gateway-deployment.yaml &&
+             kubectl apply -f gateway-service.yaml &&
+             kubectl apply -f meeting-deployment.yaml &&
+             kubectl apply -f meeting-service.yaml &&
+             kubectl apply -f user-deployment.yaml &&
+             kubectl apply -f user-service.yaml &&
+             kubectl apply -f main-deployment.yaml &&
              kubectl apply -f main-service.yaml
 
 
