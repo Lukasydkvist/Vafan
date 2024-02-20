@@ -16,6 +16,7 @@ services:
   user:
     build:
       dockerfile: ./Dockerfile.user
+      context: .
     image: scalable.azurecr.io/user
     ports:
       - "3002:3002"
@@ -25,6 +26,7 @@ services:
   meeting:
     build:
       dockerfile: ./Dockerfile.meeting
+      context: .
     image: scalable.azurecr.io/meeting
     ports:
       - "3003:3003"
@@ -34,6 +36,7 @@ services:
   server:
     build:
       dockerfile: ./Dockerfile.main
+      context: .
     image: scalable.azurecr.io/main
     ports:
       - "3001:3001"
