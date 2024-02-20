@@ -8,9 +8,11 @@ data "azurerm_resource_group" "scalable" {
   name     = "scalable"
 }
 
-data "azurerm_container_registry"  "scalable" {
-    name = "scalable"
-    resource_group_name = data.azurerm_resource_group.scalable.name
+resource "azurerm_container_registry" "scalable" {
+  name = "scalable"
+  location            = data.azurerm_resource_group.scalable.location
+  resource_group_name = data.azurerm_resource_group.scalable.name
+  sku                 = "Basic"
 }
 
 
@@ -37,7 +39,7 @@ resource "azurerm_kubernetes_cluster" "scalable" {
 resource "azurerm_role_assignment" "scalable" {
   principal_id                     = azurerm_kubernetes_cluster.scalable.kubelet_identity[0].object_id
   role_definition_name             = "AcrPull"
-  scope                            = data.azurerm_container_registry.scalable.id
+  scope                            = azurerm_container_registry.scalable.id
   skip_service_principal_aad_check = true
 }
 
@@ -128,7 +130,7 @@ resource "azurerm_lb_backend_address_pool" "scalable" {
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "scalable" {
-  count                        = 0
+  count                        = 1
   network_interface_id         = azurerm_network_interface.scalable.id
   ip_configuration_name        = azurerm_network_interface.scalable.ip_configuration[0].name
   backend_address_pool_id      = azurerm_lb_backend_address_pool.scalable.id

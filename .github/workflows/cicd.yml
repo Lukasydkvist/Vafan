@@ -21,6 +21,11 @@ jobs:
         with:
           node-version: '18.x' # latest 18.x version
           
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: "1.0.0"
+        
           #insted of re-install after every run 
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -33,11 +38,37 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Transpile JSX to JS with Babel
-        run: npm run build
+      - name: Build docker Images 
+        run : docker-compose build
+      
+      - name: Authenticate docker for azure container registry
+        run: TOKEN=$(az acr login --name scalable --expose-token --output tsv --query accessToken)
+             docker login scalable.azurecr.io --username 00000000-0000-0000-0000-0000000000000 --password-stdin <<< $TOKEN
 
-      - name: Run ESLint
-        run: npm run lint-browser
+      - name: Push images to azure container registry
+        run: docker-compose up
+
+      - name: Run terraform
+        run: cd terraform
+             terraform init
+             terraform apply -auto-approve
+             cd ..
+
+      - name: Authenticate azure kubernetes
+        run: az aks get-credentials --name scalable-aks --resource-group scalable --overwrite-existing
+
+      - name: Deploy all kubernetes services and deployments
+        run: kubectl apply -f gateway-deployment.yaml
+             kubectl apply -f gateway-service.yaml
+             kubectl apply -f meeting-deployment.yaml
+             kubectl apply -f meeting-service.yaml
+             kubectl apply -f user-deployment.yaml
+             kubectl apply -f user-service.yaml
+             kubectl apply -f main-deployment.yaml
+             kubectl apply -f main-service.yaml
+
+
+
 
 
 #   Checkout code:

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meeting-microservice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: meeting-microservice
+  template:
+    metadata:
+      labels:
+        app: meeting-microservice
+    spec:
+      containers:
+        - name: meeting-microservice-container
+          image: scalable.azurecr.io/user
+          ports:
+            - containerPort: 3003
