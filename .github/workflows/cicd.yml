@@ -54,8 +54,9 @@ jobs:
              cd ..
 
       - uses: tale/kubectl-action@v1
-        with: base64-kube-config: ${{ secrets.KUBE_CONFIG }}
-              kubectl-version: v1.24.2
+        with: 
+          base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+          kubectl-version: v1.24.2
       
       - name: Deploy all kubernetes services and deployments
         run: kubectl apply -f gateway-deployment.yaml
