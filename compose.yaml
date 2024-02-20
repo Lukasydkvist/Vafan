@@ -4,6 +4,7 @@ services:
   gateway:
     build:
       dockerfile: ./Dockerfile.gateway
+    image: scalable.azurecr.io/gateway
     ports:
       - "3000:3000"
     depends_on:
@@ -14,6 +15,7 @@ services:
   user:
     build:
       dockerfile: ./Dockerfile.user
+    image: scalable.azurecr.io/user
     ports:
       - "3002:3002"
     environment:
@@ -22,6 +24,7 @@ services:
   meeting:
     build:
       dockerfile: ./Dockerfile.meeting
+    image: scalable.azurecr.io/meeting
     ports:
       - "3003:3003"
     environment:
@@ -30,6 +33,7 @@ services:
   server:
     build:
       dockerfile: ./Dockerfile.main
+    image: scalable.azurecr.io/main
     ports:
       - "3001:3001"
     environment:

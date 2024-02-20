@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: main-microservice-container
-          image: scalable.azurecr.io/user
+          image: scalable.azurecr.io/main
           ports:
             - containerPort: 3001

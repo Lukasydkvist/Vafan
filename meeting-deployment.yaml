@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: meeting-microservice-container
-          image: scalable.azurecr.io/user
+          image: scalable.azurecr.io/meeting
           ports:
             - containerPort: 3003
