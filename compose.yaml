@@ -3,7 +3,8 @@ version: '3.8'
 services:
   gateway:
     build:
-      dockerfile: ./Dockerfile.gateway
+      dockerfile: Dockerfile.gateway
+      context: .
     image: scalable.azurecr.io/gateway
     ports:
       - "3000:3000"
