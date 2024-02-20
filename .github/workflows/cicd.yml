@@ -42,8 +42,7 @@ jobs:
         run : docker-compose build
       
       - name: Authenticate docker for azure container registry
-        run: TOKEN=$(az acr login --name scalable --expose-token --output tsv --query accessToken)
-             docker login scalable.azurecr.io --username 00000000-0000-0000-0000-0000000000000 --password-stdin <<< $TOKEN
+        run: echo ${{ secrets.CONTAINER_REGISTRY_PASSWORD }} | docker login ${{ secrets.CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password-stdin 
 
       - name: Push images to azure container registry
         run: docker-compose up
