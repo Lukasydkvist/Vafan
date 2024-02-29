@@ -31,29 +31,25 @@ jobs:
           cache: 'npm'
           cache-dependency-path: 'backend/package-lock.json' # Path to package-lock.json in video-storage subfolder.
         
+      # Build docker image
       - name: Build docker image
         run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/gateway:$VERSION --file ./Dockerfile .
       
+      # Push docker image to container registry
       - name: Push docker image 
         run: |
           echo $CONTAINER_REGISTRY_PASSWORD | docker login $CONTAINER_REGISTRY_LOGIN_SERVER --username $CONTAINER_REGISTRY_USERNAME --password-stdin
           docker push $CONTAINER_REGISTRY_LOGIN_SERVER/gateway:$VERSION
 
-      - run: echo ${{ secrets.CONTAINER_REGISTRY_PASSWORD }} | docker login ${{ secrets.CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password-stdin 
-
-      #- name: Push images to azure container registry
-      #  run: docker-compose push
-
-      - name: echo
-        run: echo ${{ secrets.KUBE_CONFIG }}
-
+      # Install and setup kubectl
       - uses: tale/kubectl-action@v1
-        with: 
+        with:
           base64-kube-config: ${{ secrets.KUBE_CONFIG }}
           kubectl-version: v1.24.2
       
-      - name: Deploy all kubernetes services and deployments
-        run: kubectl apply -f gateway-deployment.yaml && kubectl apply -f gateway-service.yaml 
-             
+      # Deploy to kubernetes
+      - name: Deploy
+        run: envsubst < backend/gateway/kubernetes/deploy.yaml | kubectl apply -f -
+
 
 
