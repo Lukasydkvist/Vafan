@@ -6,6 +6,7 @@ on:
       - main
     paths: 
       - 'backend/gateway/**'
+      - 'frontend/**'
 
   workflow_dispatch:
       
