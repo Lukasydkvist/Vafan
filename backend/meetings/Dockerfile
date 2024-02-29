@@ -9,6 +9,6 @@ WORKDIR /Vafan/backend
 RUN npm install
 
 # Start the application
-EXPOSE 3002
+EXPOSE 3003
 WORKDIR /Vafan
 CMD node backend/meetings/src/index.js

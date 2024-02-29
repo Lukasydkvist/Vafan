@@ -9,6 +9,6 @@ WORKDIR /Vafan/backend
 RUN npm install
 
 # Start the application
-EXPOSE 3001
+EXPOSE 3002
 WORKDIR /Vafan
 CMD node backend/users/src/index.js

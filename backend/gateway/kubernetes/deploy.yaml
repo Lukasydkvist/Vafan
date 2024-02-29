@@ -16,4 +16,4 @@ spec:
         - name: gateway-microservice-container
           image: vafan.azurecr.io/gateway
           ports:
-            - containerPort: 3000
+            - containerPort: 3001

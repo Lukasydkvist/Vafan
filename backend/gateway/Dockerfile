@@ -16,6 +16,6 @@ RUN npm install
 RUN npm run build
 
 # Start the application
-EXPOSE 3000
+EXPOSE 3001
 WORKDIR /Vafan
 CMD node backend/gateway/src/index.js
