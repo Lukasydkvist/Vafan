@@ -3,44 +3,30 @@ version: '3.8'
 services:
   gateway:
     build:
-      dockerfile: Dockerfile.gateway
+      dockerfile: ./backend/gateway/Dockerfile
       context: .
     image: scalable.azurecr.io/gateway
     ports:
       - "3000:3000"
-    depends_on:
-      - user
     environment:
       - NODE_ENV=production
-
-  user:
+  
+  meetings:
     build:
-      dockerfile: ./Dockerfile.user
+      dockerfile: ./backend/meetings/Dockerfile
       context: .
-    image: scalable.azurecr.io/user
+    image: scalable.azurecr.io/meetings
     ports:
       - "3002:3002"
     environment:
       - NODE_ENV=production
 
-  meeting:
+  users:
     build:
-      dockerfile: ./Dockerfile.meeting
+      dockerfile: ./backend/users/Dockerfile
       context: .
-    image: scalable.azurecr.io/meeting
-    ports:
-      - "3003:3003"
-    environment:
-      - NODE_ENV=production
-
-  server:
-    build:
-      dockerfile: ./Dockerfile.main
-      context: .
-    image: scalable.azurecr.io/main
+    image: scalable.azurecr.io/users
     ports:
       - "3001:3001"
     environment:
       - NODE_ENV=production
-
-
