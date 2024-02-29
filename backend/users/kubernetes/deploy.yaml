@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: user-microservice-container
-          image: vafan.azurecr.io/user
+          image: $CONTAINER_REGISTRY_LOGIN_SERVER/users:$VERSION
           ports:
             - containerPort: 3002

@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: meeting-microservice-container
-          image: vafan.azurecr.io/meeting
+          image: $CONTAINER_REGISTRY_LOGIN_SERVER/meetings:$VERSION
           ports:
             - containerPort: 3003

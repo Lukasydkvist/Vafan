@@ -34,13 +34,13 @@ jobs:
         
       # Build docker image
       - name: Build docker image
-        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/users --file ./backend/users/Dockerfile .
+        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/users:$VERSION --file ./backend/users/Dockerfile .
       
       # Push docker image to container registry
       - name: Push docker image 
         run: |
           echo $CONTAINER_REGISTRY_PASSWORD | docker login $CONTAINER_REGISTRY_LOGIN_SERVER --username $CONTAINER_REGISTRY_USERNAME --password-stdin
-          docker push $CONTAINER_REGISTRY_LOGIN_SERVER/users
+          docker push $CONTAINER_REGISTRY_LOGIN_SERVER/users:$VERSION
 
       # Install and setup kubectl
       - uses: tale/kubectl-action@v1
