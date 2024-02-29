@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: user-microservice-container
-          image: scalable.azurecr.io/user
+          image: vafan.azurecr.io/user
           ports:
             - containerPort: 3002

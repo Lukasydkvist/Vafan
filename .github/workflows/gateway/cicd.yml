@@ -50,6 +50,3 @@ jobs:
       # Deploy to kubernetes
       - name: Deploy
         run: envsubst < backend/gateway/kubernetes/deploy.yaml | kubectl apply -f -
-
-
-
