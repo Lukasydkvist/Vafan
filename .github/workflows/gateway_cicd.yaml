@@ -6,6 +6,8 @@ on:
       - main
     paths: 
       - 'backend/gateway/**'
+
+  workflow_dispatch:
       
 jobs:
   gateway-cicd:
