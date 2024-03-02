@@ -10,8 +10,9 @@ function probeServer(app) {
     // -- StartupProbe --
     // Write a file to /tmp/started to indicate that the microservice has started
     try {
-        fs.writeFile('/tmp/started', 'started');
-        console.log('Wrote file /tmp/started.');
+        fs.writeFile('/tmp/started', 'started', () => {
+            console.log('Wrote file /tmp/started.');
+        });
     } catch (err) {
         console.error(err);
     }
