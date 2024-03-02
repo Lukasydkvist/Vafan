@@ -16,6 +16,12 @@ const app = express();
 // Setup CORS
 app.use(cors());
 
+// Log incoming requests
+app.use((req, res, next) => {
+	console.log(`Received request: ${req.method} ${req.originalUrl}`);
+	next();
+})
+
 // Serve static files from the build folder
 app.use(express.static(path.join(__dirname, buildPath)));
 app.get(["/"], (req, res) => { res.sendFile(path.join(__dirname, my_path, "index.html")) });

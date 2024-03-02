@@ -17,6 +17,12 @@ rotateKey.startCronJob();
 // Add JSON parser middleware
 app.use(bodyParser.json());
 
+// Log incoming requests
+app.use((req, res, next) => {
+	console.log(`Received request: ${req.method} ${req.originalUrl}`);
+	next();
+})
+
 app.get("/", (req, res) => { res.json("Welcome to the 'users' microservice.") })
 
 app.post("/api/user/CreateUser", async (req, res) => {
@@ -27,8 +33,10 @@ app.post("/api/user/CreateUser", async (req, res) => {
 		const user = new User({Email, Name, Password, UserId: id});
 		user.save();
 
+		console.log("User saved: ", user);
 		return res.status(200);
-	} catch {
+	} catch (error) {
+		console.error("Failed to insert into database", error);
 		return res.status(400).json({ error: "Failed to insert into database"});
 	}
 });
@@ -36,8 +44,10 @@ app.post("/api/user/CreateUser", async (req, res) => {
 app.post("/api/user/userList", async (req, res) => {
 	try {
 		const list = await User.find().select("Name UserId");
+		console.log("User list: ", list)
 		res.json(list);
-	} catch {
+	} catch (error) {
+		console.error("Failed to retrieve user list", error);
 		return res.status(400).json({ error: "userlist"});
 	}
 });
@@ -50,8 +60,9 @@ app.post("/api/user/ValidateEmail", async (req, res) => {
 
 		if(checkEmail) return res.status(400).json({ error: "Email already exists"});
 		else		   return res.status(200).send("email doesnt exist");
-	} catch {
-		return res.status(400).json({ error: "Failed to insert into database"});
+	} catch (error) {
+		console.error("Failed to find a user by email", error);
+		return res.status(400).json({ error: "Failed to find a user by email"});
 	}
 });
 
@@ -63,8 +74,9 @@ app.post("/api/user/ValidateName", async (req, res) => {
 
 		if(checkName) return res.status(400).json({ error: "Name already exists"});
 		else		  return res.status(200).send("name doesnt exist");
-	} catch {
-		return res.status(400).json({ error: "Failed to insert into database"});
+	} catch (error) {
+		console.error("Failed to find a user by name", error);
+		return res.status(400).json({ error: "Failed to find a user by name"});
 	}
 });
 
@@ -89,8 +101,10 @@ app.post("/api/user/ValidateLogin", async (req, res) => {
 			return res.status(400).send({error: "Failed to generate JWT token."});
 		}
 
+		console.log("User authenticated: ", person);
 		return res.status(200).send({token, message: "authentication successful"});
-	} catch {
+	} catch (error) {
+		console.error("Failed to authenticate", error);
 		return res.status(400).json({ error: "error, failed to authenitcate"});
 	}
 });
@@ -99,9 +113,12 @@ app.get("/api/user/validateUserId", async (req, res) => {
 	try {
 		const exists = await User.exists({ UserId: req.query.userId });
 		
+		console.log("User exists: ", exists);
+
 		if (exists !== null) res.status(200).send("User exists")
 	    else res.status(404).json({ message: "User with specified ID not found." });
-	} catch {
+	} catch (error) {
+		console.error(error);
 		res.status(500).json({ message: "Error retrieving the user." });
 	}
 });
@@ -123,11 +140,12 @@ app.post("/api/user/updateName", async (req, res) => {
 		const userId = decoded.userId;
 		const user = await User.findOneAndUpdate({UserId: userId}, { Name: newName }, { new: true });
 
+		console.log("Updated name of user: ", user)
+
 		if (user) res.json({ success: true, user });
 		else 	  res.status(404).json({ success: false, message: "User not found" });
 
 	} catch (error) {
-		// jwt.verify() throws an error if token is invalid
 		console.error(error);
 		res.status(500).json({ success: false, error: "Internal Server Error" });
 	}
@@ -152,6 +170,8 @@ app.post("/api/user/updateEmail", async (req, res) => {
 
 		// find the user by userId and update the email
 		const user = await User.findOneAndUpdate({UserId: userId}, { Email: newEmail }, { new: true });
+
+		console.log("Updated email of user: ", user)
 
 		if (user) res.json({ success: true, user });
 		else      res.status(404).json({ success: false, message: "User not found" });
@@ -179,6 +199,8 @@ app.post("/api/user/updatePassword", async (req, res) => {
 		const userId = decoded.userId;
 		const user = await User.findOneAndUpdate({UserId: userId}, { Password: newPassword }, { new: true });
 
+		console.log("Updated password of user: ", user)
+
 		if (user) res.json({ success: true, user });
 		else      res.status(404).json({ success: false, message: "User not found" });
 	} catch (error) {
@@ -203,6 +225,8 @@ app.post("/api/user/getPassword", async (req, res) => {
 		const userId = decoded.userId;
 
 		const user = await User.findOne({UserId: userId}).select("Password");
+
+		console.log("Retrieved password of user: ", user)
 
 		if (user) res.json({ success: true, user });
 		else      res.status(404).json({ success: false, message: "User not found" });

@@ -2,14 +2,26 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const { MeetingParticipant, MeetingProp } = require("./db.js");
+const dotenv = require("dotenv");
 const ports = require("../../ports.js");
 const dbConnect = require("../../dbConnect.js");
+const probeServer = require("../../probing.js");
+
+dotenv.config();
+dbConnect();
 
 // Start the server
 const app = express();
+probeServer(app);
 
 // Add JSON parser middleware
 app.use(bodyParser.json());
+
+// Log incoming requests
+app.use((req, res, next) => {
+	console.log(`Received request: ${req.method} ${req.originalUrl}`);
+	next();
+})
 
 app.get("/", (req, res) => { res.json("Welcome to the 'meetings' microservice.") })
 
@@ -27,27 +39,27 @@ app.post("/api/meet/meeting/save", async (req, res) => {
 
 		let decoded = null;
 		try {
-			decoded = jwt.verify(token, secretKey);
+			decoded = jwt.verify(token, process.env.secretKey);
 		} catch (error) {
 			console.error("jwt.verify() failed: ", error);
 		}
-
-		const userId = decoded.userId;
-		const userName = decoded.name;
 	
-		const meetingProposal = new MeetingProp({meetingId: meetingId,
-			location:location, 
-			startTime:startTime, 
-			endTime:endTime,
-			createrUserId:userId,
-			createrName: userName,
-			agenda:agenda,
-			date:date,
+		const meetingProposal = new MeetingProp({
+			meetingId,
+			location, 
+			startTime, 
+			endTime,
+			createrUserId: decoded.userId,
+			createrName: decoded.name,
+			agenda,
+			date,
 			day:newday,
 			month:newmonth
 		});
 		await meetingProposal.save();
 		
+		console.log("Meeting saved: ", meetingProposal)
+
 		return res.json({meetingId:meetingId});
 	} catch {
 		return res.status(400).json({ error: "Faill to insert to database"});
@@ -63,8 +75,12 @@ app.post("api/meet/addParticipantsToMeetings", async (req, res) => {
 			let newMeetingParticipan = new MeetingParticipant({meetingId:mId, UserId:uId});
 			await newMeetingParticipan.save();
 		});
+
+		console.log("Added participants to meeting:", meetingId, "Participants:", users);
+		return res.status(200).json({ message: "Participants added successfully" });
 	} catch(error) {
 		console.error(error);
+		return res.status(400).json({ error: "Failed to insert into database"});
 	}	
 });
 
@@ -74,14 +90,17 @@ app.post("/api/meet/DeleteMeeting", async (req, res) => {
 	try {
 		const meetingDeleteResult = await MeetingProp.deleteOne({ meetingId: meetingId });
 
-		if (meetingDeleteResult.deletedCount === 0) 
+		if (meetingDeleteResult.deletedCount === 0) {
+			console.error("Failed to find meeting:", meetingId)
 			return res.status(404).json({ error: "Meeting not found" });
+		}
 
 		let responseDel;
 		do {
 			responseDel = await MeetingParticipant.deleteOne({ meetingId: meetingId });
 		} while (responseDel.deletedCount > 0);
 
+		console.log("Deleted meeting and its participants:", meetingId);
 		return res.status(200).json({ message: "Meeting and participants deleted successfully" });
 	} catch (error) {
 		console.error(error);
@@ -95,7 +114,7 @@ app.post("/api/meet/meetingList", async (req, res) => {
 		
 		let decoded = null;
 		try {
-			decoded = jwt.verify(token, secretKey);
+			decoded = jwt.verify(token, process.env.secretKey);
 		} catch (error) {
 			console.error("jwt.verify() failed: ", error);
 		}
@@ -114,6 +133,7 @@ app.post("/api/meet/meetingList", async (req, res) => {
 			});
 		});
 		
+		console.log("Meeting list:", returnMeeting);
 		res.json(returnMeeting);
 	} catch (error) {
 		console.error(error);
@@ -126,7 +146,7 @@ app.post("/api/meet/YoureMeetingList", async (req, res) => {
 		
 		let decoded = null;
 		try {
-			decoded = jwt.verify(token, secretKey);
+			decoded = jwt.verify(token, process.env.secretKey);
 		} catch (error) {
 			console.error("jwt.verify() failed: ", error);
 		}
@@ -136,8 +156,8 @@ app.post("/api/meet/YoureMeetingList", async (req, res) => {
 		const meetings = await MeetingProp.find();
 		let filteredMeetings = meetings.filter(meeting => meeting.createrUserId === userId);
 		
+		console.log("Your meeting list:", filteredMeetings);
 		res.json(filteredMeetings);
-
 	} catch (error) {
 		console.error(error);
 	}
@@ -149,7 +169,7 @@ app.post("/api/meeting", async(req, res) => {
 		
 		let decoded = null;
 		try {
-			decoded = jwt.verify(token, secretKey);
+			decoded = jwt.verify(token, process.env.secretKey);
 		} catch (error) {
 			console.log("jwt.verify() failed: ", error);
 		}
@@ -162,13 +182,9 @@ app.post("/api/meeting", async(req, res) => {
 		
 		list.forEach(invite => {
 			meetings.forEach(meeting => {
-				if(invite.meetingId === meeting.meetingId) {
-					if(meeting.month <= nextMeeting.month) {
-						if(meeting.day <= nextMeeting.day) {
-							if(meeting.day >= cDate.getDate() && meeting.day >= cDate.getMonth())
-								nextMeeting = meeting;
-						}
-					}
+				if(invite.meetingId === meeting.meetingId && meeting.month <= nextMeeting.month && meeting.day <= nextMeeting.day) {
+					if(meeting.day >= cDate.getDate() && meeting.day >= cDate.getMonth())
+						nextMeeting = meeting;
 				}
 			});
 		});
@@ -176,11 +192,10 @@ app.post("/api/meeting", async(req, res) => {
 		if(nextMeeting) res.json(nextMeeting);
 		else 			res.status(404).json({ message: "No upcoming meetings found" });
 
-	} catch {
+	} catch (error) {
+		console.error(error);
 		res.status(500).json({ message: "Error retrieving next meeting" });
 	}
 });
-
-dbConnect();
 
 app.listen(ports.meeting, () => console.log(`Server listening on http://localhost:${ports.meeting}`));

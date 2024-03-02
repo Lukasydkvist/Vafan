@@ -17,3 +17,28 @@ spec:
           image: $CONTAINER_REGISTRY_LOGIN_SERVER/meetings:$VERSION
           ports:
             - containerPort: 3003
+
+          startupProbe:
+            exec:
+              command:
+              - cat
+              - /tmp/started
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            failureThreshold: 5
+
+          readinessProbe:
+            tcpSocket:
+              port: 3003
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            failureThreshold: 5
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3003
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            failureThreshold: 3
+
