@@ -17,5 +17,13 @@
     "node-cron": "^3.0.2",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {}
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
+  }
 }
+
+
