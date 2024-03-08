@@ -32,7 +32,14 @@ jobs:
           node-version: 19.9.0
           cache: 'npm'
           cache-dependency-path: 'backend/package-lock.json' # Path to package-lock.json in video-storage subfolder.
-        
+
+       # Install dependencies and run tests   //////////////////////////////////
+      - name: Install dependencies and run tests
+        run: |
+          cd backend/users
+          npm install
+          npm test
+
       # Build docker image
       - name: Build docker image
         run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/users:$VERSION --file ./backend/users/Dockerfile .
