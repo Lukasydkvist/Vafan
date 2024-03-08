@@ -6,9 +6,11 @@ const dotenv = require("dotenv");
 const rotateKey = require("./rotateKey.js");
 const { User } = require("./db.js");
 const ports = require("../../ports.js");
+const probeServer = require("../../probing.js");
 
 // Start the server
 const app = express();
+probeServer(app);
 
 // Start background job to rotate the secret key
 dotenv.config();

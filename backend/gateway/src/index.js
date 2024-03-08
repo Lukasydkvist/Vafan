@@ -3,6 +3,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const path = require("path");
 const cors = require('cors');
 const ports = require("../../ports");
+const probeServer = require("../../probing");
 
 const buildPath = "../../../frontend/build";
 
@@ -12,6 +13,7 @@ function createProxy(devUrl, prodUrl) {
 
 // Create the server
 const app = express(); 
+probeServer(app);
 
 // Setup CORS
 app.use(cors());

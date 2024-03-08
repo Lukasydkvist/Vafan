@@ -17,3 +17,27 @@ spec:
           image: $CONTAINER_REGISTRY_LOGIN_SERVER/users:$VERSION
           ports:
             - containerPort: 3002
+        
+          startupProbe:
+            exec:
+              command:
+              - cat
+              - /tmp/started
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            failureThreshold: 5
+
+          readinessProbe:
+            tcpSocket:
+              port: 3002
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            failureThreshold: 5
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3002
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3

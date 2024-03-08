@@ -50,6 +50,9 @@ jobs:
           base64-kube-config: ${{ secrets.KUBE_CONFIG }}
           kubectl-version: v1.24.2
       
+      - name: Print Kubernetes config file
+        run: cat /home/runner/.kube/config
+      
       # Deploy to kubernetes
       - name: Deploy
         run: | 
