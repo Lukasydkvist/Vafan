@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-microservice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gateway-microservice
+  template:
+    metadata:
+      labels:
+        app: gateway-microservice
+    spec:
+      containers:
+        - name: gateway-microservice-container
+          image: $CONTAINER_REGISTRY_LOGIN_SERVER/gateway:$VERSION
+          ports:
+            - containerPort: 3001

@@ -45,12 +45,14 @@ function FormDialog() {
 		const EmailExists = await ValidateEmail(email);
 		const NameExists  = await ValidateName(userName);
 
+		console.log("EmailExists//////: ", EmailExists);
+
 		const {CreateUser} = useCreateUser();
 		
 		setValidEmail(!EmailExists);
 		setValidUserName(!NameExists);
 		
-		if(!EmailExists && !NameExists && passwordsMatch){
+		if(EmailExists && !NameExists && passwordsMatch){
 			setOpen(false);
 			await CreateUser(email, userName, password2);
 		}
@@ -76,8 +78,8 @@ function FormDialog() {
 						autoFocus
 						onChange={(e) => setEmail(e.target.value)}
 						value={email}
-						error={!validEmail}
-						helperText={!validEmail ? "Email already exists" : ""}
+						error={validEmail}
+						helperText={validEmail ? "Email already exists" : ""}
 						margin="dense"
 						id="emailtf"
 						label="Email Address"

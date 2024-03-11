@@ -44,17 +44,25 @@ async function userList( req, res){
 };
 
 
-
 //validateEmail function
 async function validateEmail (req, res) {
 	const Email = req.body.Email;
-
+	console.log("hi it is me email: ");
 	try {
 		const checkEmail = await User.findOne({Email: Email});
+		console.log("chackEmail is : ", checkEmail);
 
-		if(checkEmail) return res.status(400).json({ error: "Email already exists"});
-		else		   return res.status(200).send("email doesnt exist");
+		if(checkEmail){
+			console.log("email already exists", checkEmail);
+			return res.status(400).json({ error: "Email already exists"});
+		} else { 
+			console.log("email doesnt exist", checkEmail);
+		  	return res.status(200).send("email doesnt exist");
+		}
+
+		console.log("...");
 	} catch {
+		console.error("Failed to find a user by email", error);
 		return res.status(400).json({ error: "Failed to insert into database"});
 	}
 };
@@ -64,10 +72,8 @@ async function validateEmail (req, res) {
 //ValidateName function
 async function ValidateName (req, res) {
 	const Name = req.body.Name; 
-
 	try {
 		let checkName  = await User.findOne({Name: Name});
-
 		if(checkName) return res.status(400).json({ error: "Name already exists"});
 		else		  return res.status(200).send("name doesnt exist");
 	} catch {

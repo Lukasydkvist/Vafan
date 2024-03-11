@@ -13,7 +13,7 @@ dbConnect();
 // Start the server
 const app = express();
 probeServer(app);
-
+console.log("Server started");
 // Add JSON parser middleware
 app.use(bodyParser.json());
 
@@ -28,6 +28,7 @@ app.get("/", (req, res) => { res.json("Welcome to the 'meetings' microservice.")
 app.post("/api/ping", (req, res) => res.send("pong"));
 
 app.post("/api/meet/meeting/save", async (req, res) => {
+	console.log("this is meeting/save");
 	try{
 		const {location, startTime, endTime, agenda, date} = req.body;
 		
@@ -111,26 +112,36 @@ app.post("/api/meet/DeleteMeeting", async (req, res) => {
 });
 
 app.post("/api/meet/meetingList", async (req, res) => {
+	console.log("this is meetingList");
 	try {
+		console.log("this is meetingList//");
 		const token = req.header("Authorization").replace("Bearer ", "");
-		
+		console.log("token is : ", token);
 		let decoded = null;
+		console.log("decoded is : ", decoded);
 		try {
 			decoded = jwt.verify(token, process.env.secretKey);
+			confirm.log("decoded is : ", decoded);
 		} catch (error) {
 			console.error("jwt.verify() failed: ", error);
+			console.log("it is catched ");
 		}
 
 		const userId = decoded.userId;
+		console.log("userId is : ", userId);
 		const list = await MeetingParticipant.find({UserId: userId});
+		console.log("list is : ", list);
 		const temp = await MeetingProp.find();
+		console.log("temp is : ", temp);
 		let returnMeeting = [];
+		console.log("returnMeeting is : ", returnMeeting);
 		
 		list.forEach(invite => {
 			temp.forEach(meeting => {
 				if(meeting.meetingId === invite.meetingId)
 				{
 					returnMeeting = returnMeeting.concat(meeting);
+					console.log("returnMeeting is : ", returnMeeting);
 				}	
 			});
 		});
@@ -139,6 +150,7 @@ app.post("/api/meet/meetingList", async (req, res) => {
 		res.json(returnMeeting);
 	} catch (error) {
 		console.error(error);
+		console.log("error is catched");
 	}
 });
 
@@ -165,8 +177,10 @@ app.post("/api/meet/YoureMeetingList", async (req, res) => {
 	}
 });
 
-app.post("/api/meeting", async(req, res) => {    
+app.post("/api/meet/meeting", async(req, res) => { 
+	console.log("this is meeting");   
 	try{
+		console.log("this is meeting//");
 		const token = req.header("Authorization").replace("Bearer ", "");
 		console.log("token: ", token);
 		
