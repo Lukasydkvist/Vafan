@@ -165,7 +165,7 @@ app.post("/api/meet/YoureMeetingList", async (req, res) => {
 	}
 });
 
-app.post("/api/meeting", async(req, res) => {    
+app.post("/api/meet/meeting", async(req, res) => {    
 	try{
 		const token = req.header("Authorization").replace("Bearer ", "");
 		console.log("token: ", token);
