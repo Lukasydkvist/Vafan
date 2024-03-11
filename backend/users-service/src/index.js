@@ -32,7 +32,7 @@ app.get("/api/user/ping", (req, res) => res.send("pong"));
 
 app.post("/api/user/CreateUser", api.createUser); 
 app.post("/api/user/userList", api.userList);
-app.post("/api/user/ValidateEmailLogin", api.validateEmail);
+app.post("/api/user/ValidateEmail", api.validateEmail);
 app.post("/api/user/ValidateName", api.ValidateName); 
 app.post("/api/user/ValidateLogin", api.ValidateLogin); 
 app.get("/api/user/validateUserId", api.validateUserId); 
