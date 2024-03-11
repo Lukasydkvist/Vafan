@@ -80,8 +80,11 @@ async function ValidateLogin(req, res) {
 	const Email  = req.body.Email;
 	const Password = req.body.Password;
 
+	console.log("Validating login for: ", Email);
+
 	try{
-		let person  = await User.findOne({Email: Email, Password: Password});
+		let person  = await User.findOne({Email, Password});
+		console.log("person: ", person);
 
 		if (person.Email !== Email || person.Password !== Password) {
 			console.log("authentication failed");
@@ -92,6 +95,7 @@ async function ValidateLogin(req, res) {
 		// generate a time-limited token and return it with the response
 		
 		const tokenPayload = { userId: person.UserId, name: person.Name };
+		console.log("Token payload: ", tokenPayload)
 
 		let token = null;
 		try {
