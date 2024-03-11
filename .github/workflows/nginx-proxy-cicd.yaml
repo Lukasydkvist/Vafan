@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths: 
-      - 'frontend/**'
+      - 'proxy/**'
 
   workflow_dispatch:
       
