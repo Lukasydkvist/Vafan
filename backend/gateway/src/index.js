@@ -7,13 +7,14 @@ const ports = require("../../ports");
 const buildPath = "../../../frontend/build";
 
 function createProxy(devUrl, prodUrl) {
+	process.env.NODE_ENV = "development";
     return createProxyMiddleware({ target: process.env.NODE_ENV === "development" ? devUrl : prodUrl });
 }
 
 // Create the server
 const app = express(); 
 
-// Setup CORS
+// Setup CORS with allow any origin
 app.use(cors());
 
 // Log incoming requests
@@ -25,6 +26,9 @@ app.use((req, res, next) => {
 // Serve static files from the build folder
 app.use(express.static(path.join(__dirname, buildPath)));
 app.get(["/"], (req, res) => { res.sendFile(path.join(__dirname, my_path, "index.html")) });
+
+// Serve the ping endpoint
+app.get("/ping", (req, res) => res.send("pong"));
 
 // Proxy the request for the API to the microservices
 app.use("/api/user", createProxy(`http://localhost:${ports.user}`, "http://user-microservice"));
