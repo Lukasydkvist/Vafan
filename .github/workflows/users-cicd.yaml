@@ -37,13 +37,13 @@ jobs:
        # Install dependencies and run tests   //////////////////////////////////
       - name: Install dependencies and run tests
         run: |
-          cd backend/users
+          cd backend/users-service
           npm install
           npm test
 
       # Build docker image
       - name: Build docker image
-        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/users:$VERSION --file ./backend/users-service/Dockerfile .
+        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/users:$VERSION --file ./backend/users-service/deployment/Dockerfile .
       
       # Push docker image to container registry
       - name: Push docker image 
