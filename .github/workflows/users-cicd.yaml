@@ -43,7 +43,7 @@ jobs:
 
       # Build docker image
       - name: Build docker image
-        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/users:$VERSION --file ./backend/users/Dockerfile .
+        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/users:$VERSION --file ./backend/users-service/Dockerfile .
       
       # Push docker image to container registry
       - name: Push docker image 

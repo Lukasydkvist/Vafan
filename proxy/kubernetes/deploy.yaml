@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: proxy-nginx
-          image: $CONTAINER_REGISTRY_LOGIN_SERVER/proxy-nginx:$VERSION
+          image: $CONTAINER_REGISTRY_LOGIN_SERVER/nginx-proxy:$VERSION
           ports:
           - containerPort: 80
           

@@ -36,7 +36,7 @@ jobs:
         
       # Build docker image
       - name: Build docker image
-        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/meetings:$VERSION --file ./backend/meetings/Dockerfile .
+        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/meetings:$VERSION --file ./backend/meetings-service/Dockerfile .
       
       # Push docker image to container registry
       - name: Push docker image 
