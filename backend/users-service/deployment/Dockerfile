@@ -5,7 +5,7 @@ WORKDIR /Vafan
 COPY ./backend/users-service /Vafan/backend/users-service
 COPY ./backend/common /Vafan/backend/common
 COPY ./backend/package.json /Vafan/backend/package.json
-COPY ./.env /Vafan/.env
+COPY ./backend/.env /Vafan/.env
 WORKDIR /Vafan/backend/users-service
 RUN npm install
 
