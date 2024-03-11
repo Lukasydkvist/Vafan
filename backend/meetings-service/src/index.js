@@ -1,3 +1,4 @@
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
@@ -6,6 +7,8 @@ const dotenv = require("dotenv");
 const ports = require("../../common/ports.js");
 const dbConnect = require("../../common/dbConnect.js");
 const probeServer = require("../../common/probing.js");
+
+process.env.secretKey = "f7a1e6f5bcc572df86961d8558acc1071a05556be93d1662b4e5bbdf0daa90aa9c04ea16dab4c52a924147a663427d0bf609fdf1214cabf369c8f6405481c6bb88e3346a90c4b093cf5c378de8d443d3eb0c581f71ab8d78415787474eaf503de99000e094bd42c138b3ff5e4f51dd9071f39e8815d308412fe83d3f0d1ac94f88329afa1c6c87903a515d945d4ba81ed4559eacb022cb3dc6de12f139a4b27831b4c04a9287a6452e4224a4865e55f9cb81f74eeff160db2fccfea16cb45ae304a299297401ab072293a6064b296a6099fac7fb452f7929ce609ca807bfa0926f5b834f3278465e22f0ea1a709501649bb835a4b26df0c94fb5493eb2b833a5dafe35af83cd043155a2be91271d8a819b8eb5311522d0aec0ccff026c0b297cb77376602dd2f6281d8728f74ff63ae37a92a3d663869dd0c2cf2e7c07a476f3f574d245762fa9ecaf6d3a80b5a0c0118c7f3b6906e0798d7841c46f0a11ef6b66b2021efcb86e814a71249df76b790cfbbc91288a337589a6125a110de6c52941a4880ccc3a7d55e01efa67e2e43f0ac4521cd59e2f9a137f59f4b2d19e9c2603f3cca4f5ec99e22df3e5422779773aa215fe7320ef32f99f182dd7c4bc22b37e47910dab359f88f6f5f54ecb164e575bb5592ba5baa7f2fabb9fefa33fb3a2eb732e0c45b47c21f693b6031deb51533fe18de63085e7e9c4aa11d786bd5731"
 
 dotenv.config();
 dbConnect();
@@ -25,7 +28,7 @@ app.use((req, res, next) => {
 
 app.get("/", (req, res) => { res.json("Welcome to the 'meetings' microservice.") })
 
-app.post("/api/ping", (req, res) => res.send("pong"));
+app.get("/api/meet/ping", (req, res) => res.send("pong"));
 
 app.post("/api/meet/meeting/save", async (req, res) => {
 	console.log("this is meeting/save");
@@ -121,7 +124,7 @@ app.post("/api/meet/meetingList", async (req, res) => {
 		console.log("decoded is : ", decoded);
 		try {
 			decoded = jwt.verify(token, process.env.secretKey);
-			confirm.log("decoded is : ", decoded);
+			console.log("decoded is : ", decoded);
 		} catch (error) {
 			console.error("jwt.verify() failed: ", error);
 			console.log("it is catched ");

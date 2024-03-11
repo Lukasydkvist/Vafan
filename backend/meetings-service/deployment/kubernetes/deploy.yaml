@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: meeting-microservice
 spec:
-  replicas: 3
   selector:
     matchLabels:
       app: meeting-microservice
@@ -17,6 +16,14 @@ spec:
           image: $CONTAINER_REGISTRY_LOGIN_SERVER/meetings:$VERSION
           ports:
             - containerPort: 3003
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi    
 
           startupProbe:
             exec:
