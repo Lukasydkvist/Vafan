@@ -5,6 +5,7 @@ WORKDIR /Vafan
 COPY ./backend/meetings-service /Vafan/backend/meetings-service
 COPY ./backend/common /Vafan/backend/common
 COPY ./backend/package.json /Vafan/backend/package.json
+COPY ./backend/.env /Vafan/.env
 WORKDIR /Vafan/backend/meetings-service
 RUN npm install
 
