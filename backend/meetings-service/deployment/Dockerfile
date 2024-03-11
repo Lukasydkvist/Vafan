@@ -3,12 +3,11 @@ FROM node:latest
 # Setup microservice
 WORKDIR /Vafan
 COPY ./backend/meetings /Vafan/backend/meetings
-COPY ./backend/package.json /Vafan/backend/package.json
-COPY ./backend/*.js /Vafan/backend/
-WORKDIR /Vafan/backend
+COPY ./backend/common /Vafan/backend/common
+WORKDIR /Vafan/backend/meetings
 RUN npm install
 
 # Start the application
-EXPOSE 3003
 WORKDIR /Vafan
+EXPOSE 3003
 CMD node backend/meetings/src/index.js

@@ -1,12 +1,12 @@
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const express = require("express");
-const dbConnect = require("../../dbConnect.js");
+const dbConnect = require("../../common/dbConnect.js");
 const dotenv = require("dotenv");
 const rotateKey = require("./rotateKey.js");
 const { User } = require("./db.js");
 const api = require("./api.js");
-const ports = require("../../ports.js");
+const ports = require("../../common/ports.js");
 
 // Start the server
 const app = express();

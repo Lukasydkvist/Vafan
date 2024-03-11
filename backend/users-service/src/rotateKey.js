@@ -1,5 +1,5 @@
 const cron = require("node-cron");
-const { generateSecretKey, generateSecretKeySync } = require("../src/generateSecretKey");
+const { generateSecretKey, generateSecretKeySync } = require("./generateSecretKey");
 const fs = require("fs");
 const dotenv = require("dotenv");
 

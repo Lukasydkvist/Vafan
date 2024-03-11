@@ -1,17 +1,16 @@
-name: meetings-cicd
+name: frontend-cicd
 
 on:
   push:
     branches:
       - main
     paths: 
-      - 'backend/meetings-service/**'
-      - 'backend/common/**'
+      - 'frontend/**'
 
   workflow_dispatch:
       
 jobs:
-  meetings-cicd:
+  frontend-cicd:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     
@@ -27,31 +26,24 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Installs the Node.js package
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 19.9.0
-          cache: 'npm'
-          cache-dependency-path: 'backend/meetings-service/package-lock.json' # Path to package-lock.json in video-storage subfolder.
-        
       # Build docker image
       - name: Build docker image
-        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/meetings:$VERSION --file ./backend/meetings/Dockerfile .
+        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/frontend:$VERSION --file ./frontend/deployment/Dockerfile .
       
       # Push docker image to container registry
       - name: Push docker image 
         run: |
           echo $CONTAINER_REGISTRY_PASSWORD | docker login $CONTAINER_REGISTRY_LOGIN_SERVER --username $CONTAINER_REGISTRY_USERNAME --password-stdin
-          docker push $CONTAINER_REGISTRY_LOGIN_SERVER/meetings:$VERSION
+          docker push $CONTAINER_REGISTRY_LOGIN_SERVER/frontend:$VERSION
 
       # Install and setup kubectl
       - uses: tale/kubectl-action@v1
         with:
           base64-kube-config: ${{ secrets.KUBE_CONFIG }}
           kubectl-version: v1.24.2
-      
+
       # Deploy to kubernetes
       - name: Deploy
         run: | 
-          envsubst < backend/meetings-service/deployment/kubernetes/deploy.yaml | kubectl apply -f -
-          envsubst < backend/meetings-service/deployment/kubernetes/service.yaml | kubectl apply -f -
+          envsubst < frontend/deployment/kubernetes/deploy.yaml | kubectl apply -f -
+          envsubst < frontend/deployment/kubernetes/service.yaml | kubectl apply -f -

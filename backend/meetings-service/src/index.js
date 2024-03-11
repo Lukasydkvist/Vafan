@@ -3,9 +3,9 @@ const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const { MeetingParticipant, MeetingProp } = require("./db.js");
 const dotenv = require("dotenv");
-const ports = require("../../ports.js");
-const dbConnect = require("../../dbConnect.js");
-const probeServer = require("../../probing.js");
+const ports = require("../../common/ports.js");
+const dbConnect = require("../../common/dbConnect.js");
+const probeServer = require("../../common/probing.js");
 
 dotenv.config();
 dbConnect();

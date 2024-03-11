@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths: 
-      - 'backend/users/**'
+      - 'backend/users-service/**'
+      - 'backend/common/**'
 
   workflow_dispatch:
       
@@ -31,7 +32,7 @@ jobs:
         with:
           node-version: 19.9.0
           cache: 'npm'
-          cache-dependency-path: 'backend/package-lock.json' # Path to package-lock.json in video-storage subfolder.
+          cache-dependency-path: 'backend/users-service/package-lock.json' # Path to package-lock.json in video-storage subfolder.
 
        # Install dependencies and run tests   //////////////////////////////////
       - name: Install dependencies and run tests
@@ -59,5 +60,5 @@ jobs:
       # Deploy to kubernetes
       - name: Deploy
         run: | 
-          envsubst < backend/users/kubernetes/deploy.yaml | kubectl apply -f -
-          envsubst < backend/users/kubernetes/service.yaml | kubectl apply -f -
+          envsubst < backend/users-service/deployment/kubernetes/deploy.yaml | kubectl apply -f -
+          envsubst < backend/users-service/deployment/kubernetes/service.yaml | kubectl apply -f -

@@ -13,7 +13,7 @@
     "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^3.1.2",
-    "mongoose": "^7.5.3",
+    "mongoose": "^7.6.9",
     "node-cron": "^3.0.2",
     "web-vitals": "^2.1.4"
   },
@@ -25,5 +25,3 @@
     "supertest": "^6.3.4"
   }
 }
-
-
