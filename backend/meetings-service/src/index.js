@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 
 app.get("/", (req, res) => { res.json("Welcome to the 'meetings' microservice.") })
 
-app.post("/api/meet/ping", (req, res) => res.send("pong"));
+app.get("/api/meet/ping", (req, res) => res.send("pong"));
 
 app.post("/api/meet/meeting/save", async (req, res) => {
 	try{
