@@ -2,14 +2,26 @@ const { User } = require("./db.js");
 
 //createUser function
 async function createUser (req, res)  {
+	console.log(req.body);
+	
+
 	const {Email, Name, Password} = req.body;
+
+	// Log
+	console.log(`Received request to create user: ${Email}, ${Name}, ${Password}`);
 
 	try{
 		let id = await User.count() + 1;
+		console.log("id: ", id);
+		
 		const user = new User({Email, Name, Password, UserId: id});
+		console.log("user: ", user);
 		user.save();
 
-		return res.status(200);
+		console.log("User saved: ", user);
+
+		res.status(200).json({ Email: user.Email, Name: user.Name, UserId: user.UserId });
+		return;
 	} catch (error) {
         console.error("Failed to insert into database", error);
 		return res.status(400).json({ error: "Failed to insert into database"});
@@ -71,8 +83,11 @@ async function ValidateLogin(req, res) {
 	try{
 		let person  = await User.findOne({Email: Email, Password: Password});
 
-		if (person.Email !== Email || person.Password !== Password) 
-			return res.status(400).json({ error: "authentication failed"});
+		if (person.Email !== Email || person.Password !== Password) {
+			console.log("authentication failed");
+			res.status(400).json({ error: "authentication failed"});
+			return;
+		}
 		
 		// generate a time-limited token and return it with the response
 		
@@ -81,13 +96,18 @@ async function ValidateLogin(req, res) {
 		let token = null;
 		try {
 			token = jwt.sign(tokenPayload, process.env.SECRET_KEY, { expiresIn: "1h" });
+			console.log("Token generated: ", token);
 		} catch (error) {
-			return res.status(400).send({error: "Failed to generate JWT token."});
+			 res.status(400).send({error: "Failed to generate JWT token."});
+			 return;
 		}
 
-		return res.status(200).send({token, message: "authentication successful"});
+		 res.status(200).send({token, message: "authentication successful"});
+		console.log("User authenticated: ", person);
+		return;
 	} catch {
-		return res.status(400).json({ error: "error, failed to authenitcate"});
+		 res.status(400).json({ error: "error, failed to authenitcate"});
+		return;
 	}
 };
 

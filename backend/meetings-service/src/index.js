@@ -25,6 +25,8 @@ app.use((req, res, next) => {
 
 app.get("/", (req, res) => { res.json("Welcome to the 'meetings' microservice.") })
 
+app.post("/api/ping", (req, res) => res.send("pong"));
+
 app.post("/api/meet/meeting/save", async (req, res) => {
 	try{
 		const {location, startTime, endTime, agenda, date} = req.body;
@@ -166,6 +168,7 @@ app.post("/api/meet/YoureMeetingList", async (req, res) => {
 app.post("/api/meeting", async(req, res) => {    
 	try{
 		const token = req.header("Authorization").replace("Bearer ", "");
+		console.log("token: ", token);
 		
 		let decoded = null;
 		try {
