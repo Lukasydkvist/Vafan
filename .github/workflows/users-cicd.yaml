@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: 19.9.0
           cache: 'npm'
-          cache-dependency-path: 'backend/users-service/package-lock.json' # Path to package-lock.json in video-storage subfolder.
+          cache-dependency-path: 'backend/package-lock.json' # Path to package-lock.json in video-storage subfolder.
 
        # Install dependencies and run tests   //////////////////////////////////
       - name: Install dependencies and run tests

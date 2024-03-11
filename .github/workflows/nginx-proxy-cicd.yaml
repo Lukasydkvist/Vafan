@@ -28,7 +28,7 @@ jobs:
 
       # Build docker image
       - name: Build docker image
-        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/nginx-proxy:$VERSION --file ./proxy/deployment/Dockerfile .
+        run : docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/nginx-proxy:$VERSION --file ./proxy/Dockerfile .
       
       # Push docker image to container registry
       - name: Push docker image 
@@ -45,5 +45,5 @@ jobs:
       # Deploy to kubernetes
       - name: Deploy
         run: | 
-          envsubst < proxy/deployment/kubernetes/deploy.yaml | kubectl apply -f -
-          envsubst < proxy/deployment/kubernetes/service.yaml | kubectl apply -f -
+          envsubst < proxy/kubernetes/deploy.yaml | kubectl apply -f -
+          envsubst < proxy/kubernetes/service.yaml | kubectl apply -f -

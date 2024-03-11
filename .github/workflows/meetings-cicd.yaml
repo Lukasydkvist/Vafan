@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: 19.9.0
           cache: 'npm'
-          cache-dependency-path: 'backend/meetings-service/package-lock.json' # Path to package-lock.json in video-storage subfolder.
+          cache-dependency-path: 'backend/package-lock.json' # Path to package-lock.json in video-storage subfolder.
         
       # Build docker image
       - name: Build docker image
