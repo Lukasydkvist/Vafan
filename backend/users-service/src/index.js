@@ -1,15 +1,17 @@
 const bodyParser = require("body-parser");
-const jwt = require("jsonwebtoken");
 const express = require("express");
-const dbConnect = require("../../common/dbConnect.js");
 const dotenv = require("dotenv");
+
 const rotateKey = require("./rotateKey.js");
-const { User } = require("./db.js");
 const api = require("./api.js");
+
+const dbConnect = require("../../common/dbConnect.js");
 const ports = require("../../common/ports.js");
+const probeServer = require("../../common/probing.js");
 
 // Start the server
 const app = express();
+probeServer(app);
 
 // Start background job to rotate the secret key
 dotenv.config();
