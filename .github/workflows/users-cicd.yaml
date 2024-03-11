@@ -61,4 +61,5 @@ jobs:
       - name: Deploy
         run: | 
           envsubst < backend/users-service/deployment/kubernetes/deploy.yaml | kubectl apply -f -
+          envsubst < backend/users-service/deployment/kubernetes/scaling.yaml | kubectl apply -f -
           envsubst < backend/users-service/deployment/kubernetes/service.yaml | kubectl apply -f -

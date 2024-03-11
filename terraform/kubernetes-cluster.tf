@@ -8,10 +8,23 @@ resource "azurerm_kubernetes_cluster" "vafan" {
     name       = "default"
     node_count = 1
     vm_size    = "Standard_B2s"
+    type            = "VirtualMachineScaleSets" 
+    enable_auto_scaling = true                  
+    min_count       = 1                         
+    max_count       = 5                        
   }
 
   identity {
     type = "SystemAssigned"
+  }
+
+  auto_scaler_profile {
+    balance_similar_node_groups      = "true"
+    max_graceful_termination_sec     = "600"
+    scale_down_unneeded              = "20m"
+    scale_down_unready               = "20m"
+    scale_down_utilization_threshold = "0.5"
+    scan_interval                    = "10s"
   }
 }
 
