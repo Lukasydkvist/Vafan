@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 app.get("/", (req, res) => { res.json("Welcome to the 'users' microservice.") })
 
-app.get("/api/ping/CreateUser", (req, res) => res.send("pong"));
+app.get("/api/user/ping", (req, res) => res.send("pong"));
 
 app.post("/api/user/CreateUser", api.createUser); 
 app.post("/api/user/userList", api.userList);
