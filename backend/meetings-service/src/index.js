@@ -72,7 +72,7 @@ app.post("/api/meet/meeting/save", async (req, res) => {
 	}
 });
 
-app.post("api/meet/addParticipantsToMeetings", async (req, res) => {
+app.post("/api/meet/addParticipantsToMeetings", async (req, res) => {
 	const {users, meetingId} = req.body;
 	let mId = parseInt(meetingId);
 	try{
@@ -131,6 +131,7 @@ app.post("/api/meet/meetingList", async (req, res) => {
 		}
 
 		const userId = decoded.userId;
+		console.log(userId)
 		console.log("userId is : ", userId);
 		const list = await MeetingParticipant.find({UserId: userId});
 		console.log("list is : ", list);
@@ -148,7 +149,9 @@ app.post("/api/meet/meetingList", async (req, res) => {
 				}	
 			});
 		});
-		
+
+		createdMeetings = await MeetingProp.find({createrUserId: userId});
+		returnMeeting = [...createdMeetings, ...returnMeeting]
 		console.log("Meeting list:", returnMeeting);
 		res.json(returnMeeting);
 	} catch (error) {
