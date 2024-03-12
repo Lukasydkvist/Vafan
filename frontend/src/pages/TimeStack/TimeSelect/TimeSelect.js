@@ -39,7 +39,7 @@ function AddMeeting() {
 	};
 
 	const getUserList = () => {
-		fetch(resolveUrl("/api/meet/userList"), { method: "POST"})
+		fetch(resolveUrl("/api/user/userList"), { method: "POST"})
 			.then((response) => response.json())
 			.then((data) => {
 				setMenuItems(data);
@@ -74,9 +74,9 @@ function AddMeeting() {
 			<Stack direction={"row"}>
 				<List className="coWorkerList">
 
-					{menuItems.map((item) => (
-						<Paper elevation={5} key={item}>
-							<ListItemButton className="coWorkerInfo" key={item.Name}>
+					{menuItems.map((item, ix) => (
+						<Paper elevation={5} key={ix}>
+							<ListItemButton className="coWorkerInfo">
 								<Grid container xs={12}>
 									<Grid xs={8}>{item.Name}</Grid>
 									<Grid xs={4}>

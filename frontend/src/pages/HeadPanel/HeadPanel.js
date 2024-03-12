@@ -14,7 +14,7 @@ export default function ButtonNavBar() {
 	const navigate = useNavigate();
 
 	const handleButtonNewMeeting = () => {
-		navigate("/meetingScheduler");
+		navigate("/scheduler");
 	};
 
 	const handleButtonLogout = () => {
