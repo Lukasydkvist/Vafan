@@ -61,7 +61,7 @@ async function validateEmail (req, res) {
 		}
 
 		console.log("...");
-	} catch {
+	} catch (error) {
 		console.error("Failed to find a user by email", error);
 		return res.status(400).json({ error: "Failed to insert into database"});
 	}
